@@ -9,17 +9,17 @@ import java.util.List;
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public class CaptainImpl implements Captain {
+public class CaptainClientImpl implements CaptainClient {
 
     private static final String HOST = "host";
     private static final int PORT = 1099;
 
     @Override
-    public List<Player> getPlayers() {
+    public List<PlayerClient> getPlayers() {
         try {
             Server server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
-        } catch (RemoteException | NotBoundException e1) {
-            e1.printStackTrace();
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -47,9 +47,9 @@ public class CaptainImpl implements Captain {
     @Override
     public void register() {
         try {
-            Captain captain = (Captain) UnicastRemoteObject.exportObject(this, 0);
+            CaptainClient captainClient = (CaptainClient) UnicastRemoteObject.exportObject(this, 0);
             Server server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
-            server.register(captain);
+//            server.register(captainClient);
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }

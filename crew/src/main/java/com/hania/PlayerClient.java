@@ -3,7 +3,7 @@ package com.hania;
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public class Player {
+public interface PlayerClient {
     /*
     – każda reprezentuje osobny panel, ale powinny być do siebie podobne
   - każda zawiera te same typy przyrządów (dostępne i zablokowane)

@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public interface Captain extends Remote {
+public interface CaptainClient extends Remote {
 
     //pobiera listę graczy z serwera
-    List<Player> getPlayers() throws RemoteException;
+    List<PlayerClient> getPlayers() throws RemoteException;
 
     //umożliwia rozpoczęcie
     void startGame() throws RemoteException;

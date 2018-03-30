@@ -1,5 +1,7 @@
 package com.hania;
 
+import com.hania.model.Player;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
@@ -8,12 +10,6 @@ import java.util.Set;
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 public interface Server extends Remote {
-
-    /** todo delete?
-     * Accepts players' connections to server.
-     * @param player that want to be added to the list
-     */
-//    void acceptConnection(Player player) throws RemoteException;
 
     /**
      * @return the list of all the current players
@@ -25,9 +21,9 @@ public interface Server extends Remote {
      */
     void kickOut(Player player) throws RemoteException;
 
-    /** todo delete?
+    /**
      * Accepts players' or capitan's connections to server.
-     * @param object that want to be registered
+     * @param player that want to be registered
      */
-    void register(Object object) throws RemoteException;
+    void register(Player player) throws RemoteException;
 }

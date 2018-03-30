@@ -1,48 +1,57 @@
 package com.hania;
 
+import com.hania.model.Captain;
+import com.hania.model.Player;
+
 import java.rmi.RemoteException;
-import java.util.HashSet;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Set;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public class ServerImpl implements Server {
+public class ServerImpl extends UnicastRemoteObject implements Server {
 
-    // todo make serializable
-    private Set<Player> crew;
-    private Captain captain;
+    private Team team;
 
-    public ServerImpl() {
+    public ServerImpl() throws RemoteException {
         super();
-        crew = new HashSet<>();
+        initTeam();
+    }
+
+    private void initTeam() {
+        try {
+            team = new Team();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Set<Player> showList() {
-        return crew;
+        return team.getCrew();
     }
 
     @Override
     public void kickOut(Player player) {
-        crew.remove(player);
+        team.remove(player);
     }
 
     @Override
-    public void register(Object object) {
-        if (object instanceof Captain) {
-            registerCapitan(object);
-        } else if (object instanceof Player && !crew.contains(object)) {
-            registerPlayer(object);
+    public void register(Player player) {
+        if (player instanceof Captain && !team.contains(player)) {
+            registerCaptain(player);
+        } else if (!team.contains(player)) {
+            registerPlayer(player);
         }
     }
 
-    private void registerCapitan(Object object) {
-        captain = (Captain) object;
+    private void registerCaptain(Player player) {
+        team.set((Captain) player);
     }
 
-    private void registerPlayer(Object object) {
-        crew.add((Player) object);
+    private void registerPlayer(Player player) {
+        team.add(player);
     }
 
     @Override
@@ -53,14 +62,13 @@ public class ServerImpl implements Server {
 
         ServerImpl server = (ServerImpl) o;
 
-        return (crew != null ? crew.equals(server.crew) : server.crew == null) && (captain != null ? captain.equals(server.captain) : server.captain == null);
+        return team != null ? team.equals(server.team) : server.team == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (crew != null ? crew.hashCode() : 0);
-        result = 31 * result + (captain != null ? captain.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
         return result;
     }
 }
