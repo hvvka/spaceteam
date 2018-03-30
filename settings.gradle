@@ -1,0 +1,5 @@
+rootProject.name = 'lab4'
+
+include 'capitan'
+include 'server'
+include 'crew'

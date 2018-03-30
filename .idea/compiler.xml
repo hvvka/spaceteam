@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="com.hania.capitan.main" target="1.8" />
+      <module name="com.hania.capitan.test" target="1.8" />
+      <module name="com.hania.crew.main" target="1.8" />
+      <module name="com.hania.crew.test" target="1.8" />
+      <module name="com.hania.lab4.main" target="1.8" />
+      <module name="com.hania.lab4.test" target="1.8" />
+      <module name="com.hania.server.main" target="1.8" />
+      <module name="com.hania.server.test" target="1.8" />
+      <module name="lab4.capitan.main" target="1.8" />
+      <module name="lab4.capitan.test" target="1.8" />
+      <module name="lab4.crew.main" target="1.8" />
+      <module name="lab4.crew.test" target="1.8" />
+      <module name="lab4.main" target="1.8" />
+      <module name="lab4.server.main" target="1.8" />
+      <module name="lab4.server.test" target="1.8" />
+      <module name="lab4.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

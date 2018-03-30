@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab4.iml" filepath="$PROJECT_DIR$/.idea/modules/lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.main.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.test.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.main.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.test.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab4.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lab4.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/lab4.server.iml" filepath="$PROJECT_DIR$/.idea/modules/server/lab4.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/lab4.server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server/lab4.server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/lab4.server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/server/lab4.server.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab4.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lab4.test.iml" />
+    </modules>
+  </component>
+</project>
