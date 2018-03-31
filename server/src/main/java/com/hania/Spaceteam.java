@@ -19,16 +19,22 @@ public class Spaceteam {
 
     private static final Logger LOG = LoggerFactory.getLogger(Spaceteam.class);
 
+    private static final String HOST = "192.168.101.137";
+    private static final int PORT = 1099;
+
     public static void main(String[] args) {
+        String serverName = "//" + HOST + ":" + PORT + "/SpaceteamServer";
+
         try {
             Server server = new ServerImpl();
 
+            //todo delete
             server.register(new Captain("test"));
-            System.out.println("captain in");
+            LOG.info("captain in");
             server.register(new Player("dupa", Panel.STEER));
-            System.out.println("new player in");
+            LOG.info("new player in");
 
-            Naming.rebind("//192.168.101.137:1099/Server", server);
+            Naming.rebind(serverName, server);
         } catch (RemoteException | MalformedURLException e) {
             LOG.error("", e);
             exit(1);

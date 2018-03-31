@@ -50,8 +50,7 @@ public class Team extends UnicastRemoteObject implements Serializable {
 
         Team team = (Team) o;
 
-        if (crew != null ? !crew.equals(team.crew) : team.crew != null) return false;
-        return captain != null ? captain.equals(team.captain) : team.captain == null;
+        return (crew != null ? crew.equals(team.crew) : team.crew == null) && (captain != null ? captain.equals(team.captain) : team.captain == null);
     }
 
     @Override

@@ -32,7 +32,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public Set<Player> showPlayersList() {
+    public Set<Player> showPlayers() {
+        LOG.info("showPlayers fun");
         return team.getCrew();
     }
 

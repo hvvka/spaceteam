@@ -13,17 +13,20 @@ public interface Server extends Remote {
 
     /**
      * @return the list of all the current players
+     * @throws RemoteException if registry could not be contacted
      */
-    Set<Player> showPlayersList() throws RemoteException;
+    Set<Player> showPlayers() throws RemoteException;
 
     /**
      * @param player to be deleted from the list
+     * @throws RemoteException if registry could not be contacted
      */
     void kickOut(Player player) throws RemoteException;
 
     /**
      * Accepts players' or capitan's connections to server.
      * @param player that want to be registered
+     * @throws RemoteException if registry could not be contacted
      */
     void register(Player player) throws RemoteException;
 }

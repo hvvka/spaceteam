@@ -2,26 +2,49 @@ package com.hania;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 public interface CaptainClient extends Remote {
 
-    //pobiera listę graczy z serwera
-//    Set getPlayers() throws RemoteException;
+    /**
+     * @return a set of all players from server
+     * @throws RemoteException if registry could not be contacted
+     */
+    Set getPlayers() throws RemoteException;
 
-    //umożliwia rozpoczęcie
+    /**
+     * Enables to start a game or a round.
+     *
+     * @throws RemoteException if registry could not be contacted
+     */
     void startGame() throws RemoteException;
 
-    // i kończenie gry
+    /**
+     * Enables to end a game or a round.
+     * @throws RemoteException if registry could not be contacted
+     */
     void endGame() throws RemoteException;
 
-    //zbiera informacje o działaniu aplikacji załogi podliczając punkty
+    /**
+     * Gathers information about application's performance.
+     * @return a number of points for the crew
+     * @throws RemoteException if registry could not be contacted
+     */
     int countPoints() throws RemoteException;
 
-    //generuje kolejne (wykonywalne komendy)
+    /**
+     * @return executable task for the crew
+     * @throws RemoteException if registry could not be contacted
+     */
     String createTask() throws RemoteException;
 
-    void register();
+    /**
+     * Accepts connections made by captain or the crew.
+     *
+     * @throws RemoteException if registry could not be contacted
+     */
+    void register() throws RemoteException;
 }

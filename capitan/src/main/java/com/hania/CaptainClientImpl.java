@@ -4,6 +4,8 @@ import com.hania.model.Captain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,45 +23,51 @@ public class CaptainClientImpl implements CaptainClient {
     private static final String HOST = "192.168.101.137";
     private static final int PORT = 1099;
 
-    //    @Override
-    public static Set getPlayers() {
-        Server server = null;
-        try {
-            server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
-        } catch (RemoteException | NotBoundException e) {
-            LOG.error("", e);
-        }
+    //todo delete
+    public static void main(String[] args) {
+//        LOG.info("players: {}", getPlayers());
+    }
 
+    @Override
+    public Set getPlayers() {
+        Server server = getServer();
+        LOG.info("lookup succeed");
+        return fetchPlayers(server);
+    }
+
+    private Set fetchPlayers(Server server) {
         try {
-            return server != null ? server.showPlayersList() : Collections.emptySet();
+            return server != null ? server.showPlayers() : Collections.emptySet();
         } catch (RemoteException e) {
             LOG.error("", e);
         }
         return Collections.emptySet();
     }
 
+    private Server getServer() {
+        Server server = null;
+        String serverName = "//" + HOST + ":" + PORT + "/SpaceteamServer";
+        try {
+            server = (Server) Naming.lookup(serverName);
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            LOG.error("", e);
+        }
+        return server;
+    }
+
     @Override
     public void startGame() {
-
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public void endGame() {
-
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public int countPoints() {
-        return 0;
-    }
-
-    @Override
-    public String createTask() {
-        return null;
-    }
-
-    public static void main(String[] args) {
-        LOG.info("players: {}", getPlayers());
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
@@ -72,5 +80,10 @@ public class CaptainClientImpl implements CaptainClient {
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
+    }
+
+    @Override
+    public String createTask() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
