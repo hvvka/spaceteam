@@ -38,7 +38,27 @@ public class Team extends UnicastRemoteObject implements Serializable {
         crew.remove(player);
     }
 
-    public boolean contains(Object object) {
-        return !crew.contains(object) && !captain.equals(object);
+    public boolean contains(Player player) {
+        return crew.contains(player) || player.equals(captain);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Team team = (Team) o;
+
+        if (crew != null ? !crew.equals(team.crew) : team.crew != null) return false;
+        return captain != null ? captain.equals(team.captain) : team.captain == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (crew != null ? crew.hashCode() : 0);
+        result = 31 * result + (captain != null ? captain.hashCode() : 0);
+        return result;
     }
 }

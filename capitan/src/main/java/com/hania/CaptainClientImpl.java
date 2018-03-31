@@ -1,27 +1,41 @@
 package com.hania;
 
+import com.hania.model.Captain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 public class CaptainClientImpl implements CaptainClient {
 
-    private static final String HOST = "host";
+    private static final Logger LOG = LoggerFactory.getLogger(CaptainClientImpl.class);
+
+    private static final String HOST = "192.168.101.137";
     private static final int PORT = 1099;
 
-    @Override
-    public List<PlayerClient> getPlayers() {
+    //    @Override
+    public static Set getPlayers() {
+        Server server = null;
         try {
-            Server server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
+            server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            LOG.error("", e);
         }
-        return null;
+
+        try {
+            return server != null ? server.showPlayersList() : Collections.emptySet();
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return Collections.emptySet();
     }
 
     @Override
@@ -44,14 +58,19 @@ public class CaptainClientImpl implements CaptainClient {
         return null;
     }
 
+    public static void main(String[] args) {
+        LOG.info("players: {}", getPlayers());
+    }
+
     @Override
     public void register() {
         try {
-            CaptainClient captainClient = (CaptainClient) UnicastRemoteObject.exportObject(this, 0);
+            Captain captain = new Captain("test");
+            Captain remoteCaptain = (Captain) UnicastRemoteObject.exportObject(captain, 0);
             Server server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
-//            server.register(captainClient);
+            server.register(remoteCaptain);
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            LOG.error("", e);
         }
     }
 }

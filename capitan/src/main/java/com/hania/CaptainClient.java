@@ -2,7 +2,6 @@ package com.hania;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
@@ -10,7 +9,7 @@ import java.util.List;
 public interface CaptainClient extends Remote {
 
     //pobiera listę graczy z serwera
-    List<PlayerClient> getPlayers() throws RemoteException;
+//    Set getPlayers() throws RemoteException;
 
     //umożliwia rozpoczęcie
     void startGame() throws RemoteException;

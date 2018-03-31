@@ -2,6 +2,8 @@ package com.hania;
 
 import com.hania.model.Captain;
 import com.hania.model.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,9 +14,11 @@ import java.util.Set;
  */
 public class ServerImpl extends UnicastRemoteObject implements Server {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ServerImpl.class);
+
     private Team team;
 
-    public ServerImpl() throws RemoteException {
+    ServerImpl() throws RemoteException {
         super();
         initTeam();
     }
@@ -23,12 +27,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         try {
             team = new Team();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LOG.error("", e);
         }
     }
 
     @Override
-    public Set<Player> showList() {
+    public Set<Player> showPlayersList() {
         return team.getCrew();
     }
 
@@ -72,18 +76,3 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return result;
     }
 }
-
-/*
-    private static final String HOST = "host";
-    private static final int PORT = 1099;
-
-        try {
-            LocateRegistry.createRegistry(PORT);
-            Server server = new ServerImpl();
-            Server remoteServer = (Server) UnicastRemoteObject.exportObject(server, PORT);
-            LocateRegistry.getRegistry(HOST, PORT).rebind("Server", remoteServer);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            exit(1);
-        }
- */

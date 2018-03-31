@@ -14,7 +14,7 @@ public interface Server extends Remote {
     /**
      * @return the list of all the current players
      */
-    Set<Player> showList() throws RemoteException;
+    Set<Player> showPlayersList() throws RemoteException;
 
     /**
      * @param player to be deleted from the list
