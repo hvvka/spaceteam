@@ -4,11 +4,10 @@ import com.hania.model.Captain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Set;
@@ -25,34 +24,43 @@ public class CaptainClientImpl implements CaptainClient {
 
     //todo delete
     public static void main(String[] args) {
-//        LOG.info("players: {}", getPlayers());
+//        System.setSecurityManager(new SecurityManager());
+//        System.setProperty("java.security.policy", "file:com/hania/client.policy");
+        LOG.info("players: {}", getPlayers());
     }
 
-    @Override
-    public Set getPlayers() {
+    //    @Override
+    public static Set getPlayers() {
         Server server = getServer();
         LOG.info("lookup succeed");
         return fetchPlayers(server);
     }
 
-    private Set fetchPlayers(Server server) {
+    private static Server getServer() {
+        Registry registry = null;
+        try {
+            registry = LocateRegistry.getRegistry(PORT);
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+
+        Server server = null;
+        String serverName = "" + HOST + ":" + PORT + "/SpaceteamServer";
+        try {
+            server = (Server) registry.lookup(serverName);
+        } catch (RemoteException | NotBoundException e) {
+            LOG.error("", e);
+        }
+        return server;
+    }
+
+    private static Set fetchPlayers(Server server) {
         try {
             return server != null ? server.showPlayers() : Collections.emptySet();
         } catch (RemoteException e) {
             LOG.error("", e);
         }
         return Collections.emptySet();
-    }
-
-    private Server getServer() {
-        Server server = null;
-        String serverName = "//" + HOST + ":" + PORT + "/SpaceteamServer";
-        try {
-            server = (Server) Naming.lookup(serverName);
-        } catch (RemoteException | NotBoundException | MalformedURLException e) {
-            LOG.error("", e);
-        }
-        return server;
     }
 
     @Override

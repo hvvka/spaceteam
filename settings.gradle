@@ -1,5 +1,5 @@
 rootProject.name = 'lab4'
 
-include 'capitan'
+include 'captain'
 include 'server'
 include 'crew'

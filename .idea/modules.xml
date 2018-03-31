@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lab4.iml" filepath="$PROJECT_DIR$/.idea/modules/lab4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.main.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.test.iml" filepath="$PROJECT_DIR$/.idea/modules/capitan/lab4.capitan.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/captain/lab4.captain.iml" filepath="$PROJECT_DIR$/.idea/modules/captain/lab4.captain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/captain/lab4.captain.main.iml" filepath="$PROJECT_DIR$/.idea/modules/captain/lab4.captain.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/captain/lab4.captain.test.iml" filepath="$PROJECT_DIR$/.idea/modules/captain/lab4.captain.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.main.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crew/lab4.crew.test.iml" filepath="$PROJECT_DIR$/.idea/modules/crew/lab4.crew.test.iml" />

@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':capitan')
+    compile project(':captain')
     compile project(':crew')
     compile project(':server')
 
