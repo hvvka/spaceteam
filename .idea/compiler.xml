@@ -10,8 +10,6 @@
       <module name="com.hania.lab4.test" target="1.8" />
       <module name="com.hania.server.main" target="1.8" />
       <module name="com.hania.server.test" target="1.8" />
-      <module name="lab4.capitan.main" target="1.8" />
-      <module name="lab4.capitan.test" target="1.8" />
       <module name="lab4.captain.main" target="1.8" />
       <module name="lab4.captain.test" target="1.8" />
       <module name="lab4.crew.main" target="1.8" />

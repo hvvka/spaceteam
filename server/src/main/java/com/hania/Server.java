@@ -24,7 +24,7 @@ public interface Server extends Remote {
     void kickOut(Player player) throws RemoteException;
 
     /**
-     * Accepts players' or capitan's connections to server.
+     * Accepts players' or captain's connections to server.
      * @param player that want to be registered
      * @throws RemoteException if registry could not be contacted
      */

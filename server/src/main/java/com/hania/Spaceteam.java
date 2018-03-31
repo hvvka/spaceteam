@@ -6,11 +6,9 @@ import com.hania.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import static java.lang.System.exit;
 
@@ -21,16 +19,8 @@ public class Spaceteam {
 
     private static final Logger LOG = LoggerFactory.getLogger(Spaceteam.class);
 
-    private static final String HOST = "192.168.101.137";
-    private static final int PORT = 1099;
-
-    public static void main(String[] args) throws UnknownHostException {
-        System.setSecurityManager(new SecurityManager());
-//        String serverName = "//" + HOST + ":" + PORT + "/SpaceteamServer";
-        String serverName = "//" + InetAddress.getLocalHost() + ":" + PORT + "/SpaceteamServer";
-
+    public static void main(String[] args) {
         try {
-//            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             Server server = new ServerImpl();
 
             //todo delete
@@ -39,9 +29,10 @@ public class Spaceteam {
             server.register(new Player("dupa", Panel.STEER));
             LOG.info("new player in");
 
-//            registry.bind("//192.168.101.137:1099/SpaceteamServer", server);
-            Naming.rebind(serverName, server);
-        } catch (RemoteException | MalformedURLException e) {
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind("SpaceteamServer", server);
+            LOG.info("Server ready");
+        } catch (RemoteException e) {
             LOG.error("", e);
             exit(1);
         }

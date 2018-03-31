@@ -19,13 +19,8 @@ public class CaptainClientImpl implements CaptainClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(CaptainClientImpl.class);
 
-    private static final String HOST = "192.168.101.137";
-    private static final int PORT = 1099;
-
     //todo delete
     public static void main(String[] args) {
-//        System.setSecurityManager(new SecurityManager());
-//        System.setProperty("java.security.policy", "file:com/hania/client.policy");
         LOG.info("players: {}", getPlayers());
     }
 
@@ -39,19 +34,19 @@ public class CaptainClientImpl implements CaptainClient {
     private static Server getServer() {
         Registry registry = null;
         try {
-            registry = LocateRegistry.getRegistry(PORT);
+            registry = LocateRegistry.getRegistry();
         } catch (RemoteException e) {
             LOG.error("", e);
         }
 
-        Server server = null;
-        String serverName = "" + HOST + ":" + PORT + "/SpaceteamServer";
+        Server remoteServer = null;
+        String serverName = "SpaceteamServer";
         try {
-            server = (Server) registry.lookup(serverName);
+            remoteServer = (Server) registry.lookup(serverName);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
-        return server;
+        return remoteServer;
     }
 
     private static Set fetchPlayers(Server server) {
@@ -83,7 +78,7 @@ public class CaptainClientImpl implements CaptainClient {
         try {
             Captain captain = new Captain("test");
             Captain remoteCaptain = (Captain) UnicastRemoteObject.exportObject(captain, 0);
-            Server server = (Server) LocateRegistry.getRegistry(HOST, PORT).lookup("Server");
+            Server server = (Server) LocateRegistry.getRegistry().lookup("Server");
             server.register(remoteCaptain);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
