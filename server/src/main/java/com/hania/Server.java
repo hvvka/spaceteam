@@ -1,6 +1,6 @@
 package com.hania;
 
-import com.hania.model.Player;
+import com.hania.model.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -15,18 +15,18 @@ public interface Server extends Remote {
      * @return the list of all the current players
      * @throws RemoteException if registry could not be contacted
      */
-    Set<Player> showPlayers() throws RemoteException;
+    Set<User> showPlayers() throws RemoteException;
 
     /**
-     * @param player to be deleted from the list
+     * @param user to be deleted from the list
      * @throws RemoteException if registry could not be contacted
      */
-    void kickOut(Player player) throws RemoteException;
+    void kickOut(User user) throws RemoteException;
 
     /**
      * Accepts players' or captain's connections to server.
-     * @param player that want to be registered
+     * @param user that want to be registered
      * @throws RemoteException if registry could not be contacted
      */
-    void register(Player player) throws RemoteException;
+    void register(User user) throws RemoteException;
 }

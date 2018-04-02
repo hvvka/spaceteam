@@ -1,12 +1,11 @@
 package com.hania.model;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public class Player implements Serializable, Remote {
+public class Player implements User, Serializable {
 
     private final String name;
 

@@ -1,7 +1,7 @@
 package com.hania;
 
 import com.hania.model.Captain;
-import com.hania.model.Player;
+import com.hania.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,31 +32,31 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public Set<Player> showPlayers() {
+    public Set<User> showPlayers() {
         LOG.info("showPlayers fun");
         return team.getCrew();
     }
 
     @Override
-    public void kickOut(Player player) {
-        team.remove(player);
+    public void kickOut(User user) {
+        team.remove(user);
     }
 
     @Override
-    public void register(Player player) {
-        if (player instanceof Captain && !team.contains(player)) {
-            registerCaptain(player);
-        } else if (!team.contains(player)) {
-            registerPlayer(player);
+    public void register(User user) {
+        if (user instanceof Captain && !team.contains(user)) {
+            registerCaptain(user);
+        } else if (!team.contains(user)) {
+            registerPlayer(user);
         }
     }
 
-    private void registerCaptain(Player player) {
-        team.set((Captain) player);
+    private void registerCaptain(User user) {
+        team.setCaptain(user);
     }
 
-    private void registerPlayer(Player player) {
-        team.add(player);
+    private void registerPlayer(User user) {
+        team.addPlayer(user);
     }
 
     @Override

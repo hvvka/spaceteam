@@ -1,6 +1,5 @@
 package com.hania;
 
-import com.hania.model.Captain;
 import com.hania.model.Panel;
 import com.hania.model.Player;
 import org.slf4j.Logger;
@@ -24,8 +23,6 @@ public class Spaceteam {
             Server server = new ServerImpl();
 
             //todo delete
-            server.register(new Captain("test"));
-            LOG.info("captain in");
             server.register(new Player("dupa", Panel.STEER));
             LOG.info("new player in");
 

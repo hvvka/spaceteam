@@ -2,6 +2,7 @@ package com.hania;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
@@ -9,10 +10,10 @@ import java.rmi.RemoteException;
 public interface CaptainClient extends Remote {
 
     /**
-     * @return a set of all players from server
+     * @return a setCaptain of all players from server
      * @throws RemoteException if registry could not be contacted
      */
-//    Set getPlayers() throws RemoteException;
+    Set getPlayers() throws RemoteException;
 
     /**
      * Enables to start a game or a round.
@@ -41,9 +42,10 @@ public interface CaptainClient extends Remote {
     String createTask() throws RemoteException;
 
     /**
-     * Accepts connections made by captain or the crew.
+     * Registers captain on the server.
      *
      * @throws RemoteException if registry could not be contacted
+     * @param name captain's name
      */
-    void register() throws RemoteException;
+    void registerCaptain(String name) throws RemoteException;
 }

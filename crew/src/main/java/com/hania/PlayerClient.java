@@ -1,9 +1,13 @@
 package com.hania;
 
+import java.awt.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public interface PlayerClient {
+public interface PlayerClient extends Remote {
     /*
     – każda reprezentuje osobny panel, ale powinny być do siebie podobne
   - każda zawiera te same typy przyrządów (dostępne i zablokowane)
@@ -20,4 +24,11 @@ public interface PlayerClient {
     - klasę opisową BeanInfo z klasami pomocnicznymi edytorów:
       - uwaga na metody: `getJavaInitializationString` i customizera (`setObject`; zmiana właściwości ziarenka)
      */
+
+    /**
+     * @param name  player's name
+     * @param panel player's panel
+     * @throws RemoteException if registry could not be contacted
+     */
+    void registerPlayer(String name, Panel panel) throws RemoteException;
 }

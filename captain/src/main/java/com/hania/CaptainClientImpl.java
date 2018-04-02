@@ -1,6 +1,7 @@
 package com.hania;
 
 import com.hania.model.Captain;
+import com.hania.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,34 +20,39 @@ public class CaptainClientImpl implements CaptainClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(CaptainClientImpl.class);
 
-    //todo delete
-    public static void main(String[] args) {
-        LOG.info("players: {}", getPlayers());
+    private String severName;
+
+    CaptainClientImpl(String serverName) {
+        this.severName = serverName;
     }
 
-    //    @Override
-    public static Set getPlayers() {
-        Server server = getServer();
+    @Override
+    public Set getPlayers() {
+        Server remoteServer = getServer();
         LOG.info("lookup succeed");
-        return fetchPlayers(server);
+        return fetchPlayers(remoteServer);
     }
 
-    private static Server getServer() {
+    private Server getServer() {
+        Server remoteServer = null;
+        Registry registry = getRegistry();
+        try {
+            remoteServer = (Server) registry.lookup(severName); //fixme nullpointer
+            LOG.info("Server {} lookup succeed.", severName);
+        } catch (RemoteException | NotBoundException e) {
+            LOG.error("", e);
+        }
+        return remoteServer;
+    }
+
+    private Registry getRegistry() {
         Registry registry = null;
         try {
             registry = LocateRegistry.getRegistry();
         } catch (RemoteException e) {
             LOG.error("", e);
         }
-
-        Server remoteServer = null;
-        String serverName = "SpaceteamServer";
-        try {
-            remoteServer = (Server) registry.lookup(serverName);
-        } catch (RemoteException | NotBoundException e) {
-            LOG.error("", e);
-        }
-        return remoteServer;
+        return registry;
     }
 
     private static Set fetchPlayers(Server server) {
@@ -74,12 +80,13 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public void register() {
+    public void registerCaptain(String name) {
         try {
-            Captain captain = new Captain("test");
-            Captain remoteCaptain = (Captain) UnicastRemoteObject.exportObject(captain, 0);
-            Server server = (Server) LocateRegistry.getRegistry().lookup("Server");
+            User captain = new Captain(name);
+            User remoteCaptain = (User) UnicastRemoteObject.exportObject(captain, 0);
+            Server server = (Server) LocateRegistry.getRegistry().lookup(severName);
             server.register(remoteCaptain);
+            LOG.info("Captain {} registered!", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
