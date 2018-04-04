@@ -14,16 +14,9 @@ public class CaptainDriver {
 
     private static final String SEVER_NAME = "SpaceteamServer";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
         CaptainClient captainClient = new CaptainClientImpl(SEVER_NAME);
-        registerCaptain(captainClient);
-    }
-
-    private static void registerCaptain(CaptainClient captainClient) {
-        try {
-            captainClient.registerCaptain("Captain-test");
-        } catch (RemoteException e) {
-            LOG.error("", e);
-        }
+        captainClient.registerCaptain("Foo");
+        LOG.info("Generated task: {}", captainClient.createTask());
     }
 }

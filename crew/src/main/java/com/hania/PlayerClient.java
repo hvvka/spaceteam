@@ -31,4 +31,8 @@ public interface PlayerClient extends Remote {
      * @throws RemoteException if registry could not be contacted
      */
     void registerPlayer(String name, Panel panel) throws RemoteException;
+
+    void receiveTask(String task) throws RemoteException;
+
+    boolean verifyTask() throws RemoteException;
 }

@@ -16,11 +16,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private static final Logger LOG = LoggerFactory.getLogger(ServerImpl.class);
 
+    private TaskGenerator taskGenerator;
     private Team team;
 
     ServerImpl() throws RemoteException {
         super();
         initTeam();
+        taskGenerator = new TaskGenerator();
     }
 
     private void initTeam() {
@@ -33,7 +35,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Override
     public Set<User> showPlayers() {
-        LOG.info("showPlayers fun");
+        LOG.info("ShowPlayers function invocation. (server side)");
         return team.getCrew();
     }
 
@@ -46,8 +48,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     public void register(User user) {
         if (user instanceof Captain && !team.contains(user)) {
             registerCaptain(user);
+            LOG.info("New Captain registered. (server side)");
         } else if (!team.contains(user)) {
             registerPlayer(user);
+            LOG.info("New Player registered. (server side)");
         }
     }
 
@@ -57,6 +61,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private void registerPlayer(User user) {
         team.addPlayer(user);
+    }
+
+    @Override
+    public String sendTask() {
+        LOG.info("SendTask function invocation. (server side)");
+        return taskGenerator.getTask();
     }
 
     @Override

@@ -5,7 +5,18 @@ package com.hania.model;
  */
 public class Captain extends Player {
 
+    private int points;
+
     public Captain(String name) {
         super(name, Panel.CAPTAIN);
+        points = 0;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

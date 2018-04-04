@@ -29,7 +29,6 @@ public class CaptainClientImpl implements CaptainClient {
     @Override
     public Set getPlayers() {
         Server remoteServer = getServer();
-        LOG.info("lookup succeed");
         return fetchPlayers(remoteServer);
     }
 
@@ -37,8 +36,8 @@ public class CaptainClientImpl implements CaptainClient {
         Server remoteServer = null;
         Registry registry = getRegistry();
         try {
-            remoteServer = (Server) registry.lookup(severName); //fixme nullpointer
-            LOG.info("Server {} lookup succeed.", severName);
+            remoteServer = (Server) registry.lookup(severName); //FIXME nullpointer
+            LOG.info("Server {} lookup succeed. (captain side)", severName);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
@@ -55,7 +54,7 @@ public class CaptainClientImpl implements CaptainClient {
         return registry;
     }
 
-    private static Set fetchPlayers(Server server) {
+    private Set fetchPlayers(Server server) {
         try {
             return server != null ? server.showPlayers() : Collections.emptySet();
         } catch (RemoteException e) {
@@ -86,7 +85,7 @@ public class CaptainClientImpl implements CaptainClient {
             User remoteCaptain = (User) UnicastRemoteObject.exportObject(captain, 0);
             Server server = (Server) LocateRegistry.getRegistry().lookup(severName);
             server.register(remoteCaptain);
-            LOG.info("Captain {} registered!", name);
+            LOG.info("Captain {} registered! (captain side)", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
@@ -94,6 +93,16 @@ public class CaptainClientImpl implements CaptainClient {
 
     @Override
     public String createTask() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Server remoteServer = getServer();
+        return getTask(remoteServer);
+    }
+
+    private String getTask(Server server) {
+        try {
+            return server != null ? server.sendTask() : "Be patient, please.";
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return "";
     }
 }

@@ -17,7 +17,6 @@ public interface CaptainClient extends Remote {
 
     /**
      * Enables to start a game or a round.
-     *
      * @throws RemoteException if registry could not be contacted
      */
     void startGame() throws RemoteException;
@@ -43,7 +42,6 @@ public interface CaptainClient extends Remote {
 
     /**
      * Registers captain on the server.
-     *
      * @throws RemoteException if registry could not be contacted
      * @param name captain's name
      */

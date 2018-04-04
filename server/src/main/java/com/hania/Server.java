@@ -29,4 +29,10 @@ public interface Server extends Remote {
      * @throws RemoteException if registry could not be contacted
      */
     void register(User user) throws RemoteException;
+
+    /**
+     * @return task for the captain
+     * @throws RemoteException if registry could not be contacted
+     */
+    String sendTask() throws RemoteException;
 }

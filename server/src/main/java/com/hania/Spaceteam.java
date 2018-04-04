@@ -23,12 +23,12 @@ public class Spaceteam {
             Server server = new ServerImpl();
 
             //todo delete
-            server.register(new Player("dupa", Panel.STEER));
-            LOG.info("new player in");
+            server.register(new Player("Bar", Panel.STEER));
+            LOG.info("New player in.");
 
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("SpaceteamServer", server);
-            LOG.info("Server ready");
+            LOG.info("Server's ready.");
         } catch (RemoteException e) {
             LOG.error("", e);
             exit(1);
