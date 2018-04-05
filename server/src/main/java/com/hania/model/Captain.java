@@ -8,7 +8,7 @@ public class Captain extends Player {
     private int points;
 
     public Captain(String name) {
-        super(name, Panel.CAPTAIN);
+        super(name, PanelType.CAPTAIN);
         points = 0;
     }
 

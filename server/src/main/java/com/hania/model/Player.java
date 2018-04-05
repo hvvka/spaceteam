@@ -9,10 +9,10 @@ public class Player implements User, Serializable {
 
     private final String name;
 
-    private Panel panel;
+    private PanelType panelType;
 
-    public Player(String name, Panel panel) {
+    public Player(String name, PanelType panelType) {
         this.name = name;
-        this.panel = panel;
+        this.panelType = panelType;
     }
 }

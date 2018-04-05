@@ -1,6 +1,6 @@
 package com.hania;
 
-import com.hania.model.Panel;
+import com.hania.model.PanelType;
 import com.hania.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class Spaceteam {
             Server server = new ServerImpl();
 
             //todo delete
-            server.register(new Player("Bar", Panel.STEER));
+            server.register(new Player("Bar", PanelType.STEER));
             LOG.info("New player in.");
 
             Registry registry = LocateRegistry.getRegistry();

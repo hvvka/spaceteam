@@ -1,13 +1,9 @@
 package com.hania.model;
 
+import java.rmi.Remote;
+
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-public enum Panel {
-    CAPTAIN,
-    STEER,
-    ENGINE,
-    MATHEMATICAL,
-    CLEANER,
-    RANDOM
+public interface Task extends Remote {
 }

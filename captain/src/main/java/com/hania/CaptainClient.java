@@ -1,5 +1,7 @@
 package com.hania;
 
+import com.hania.model.Task;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
@@ -38,7 +40,7 @@ public interface CaptainClient extends Remote {
      * @return executable task for the crew
      * @throws RemoteException if registry could not be contacted
      */
-    String createTask() throws RemoteException;
+    Task createTask() throws RemoteException;
 
     /**
      * Registers captain on the server.

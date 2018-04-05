@@ -1,6 +1,7 @@
 package com.hania;
 
 import com.hania.model.Captain;
+import com.hania.model.Task;
 import com.hania.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public String sendTask() {
+    public Task sendTask() {
         LOG.info("SendTask function invocation. (server side)");
         return taskGenerator.getTask();
     }
