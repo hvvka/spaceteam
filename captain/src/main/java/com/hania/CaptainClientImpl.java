@@ -1,6 +1,8 @@
 package com.hania;
 
-import com.hania.model.*;
+import com.hania.model.Captain;
+import com.hania.model.PanelType;
+import com.hania.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,17 +93,21 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public Task createTask() {
+    public TaskGenerator.SingleTask createTask() {
         Server remoteServer = getServer();
         return getTask(remoteServer);
     }
 
-    private Task getTask(Server server) {
+    private TaskGenerator.SingleTask getTask(Server server) {
         try {
-            return server != null ? server.sendTask() : new PanelTask(PanelType.CAPTAIN, Collections.emptyMap());
+            return server != null ? server.sendTask() : getExceptionTask();
         } catch (RemoteException e) {
             LOG.error("", e);
         }
-        return new PanelTask(PanelType.CAPTAIN, Collections.emptyMap());
+        return getExceptionTask();
+    }
+
+    private TaskGenerator.SingleTask getExceptionTask() {
+        return new TaskGenerator.SingleTask(PanelType.CAPTAIN, "Be patient,", "please");
     }
 }

@@ -18,10 +18,12 @@ public class PanelTask implements Task, Serializable {
         this.descriptionAnswer = descriptionAnswer;
     }
 
+    @Override
     public PanelType getPanelType() {
         return panelType;
     }
 
+    @Override
     public Map<String, List<String>> getDescriptionAnswer() {
         return descriptionAnswer;
     }

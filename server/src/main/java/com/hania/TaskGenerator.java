@@ -21,7 +21,7 @@ class TaskGenerator implements Serializable {
         initTasks();
     }
 
-    //TODO put in properties
+    //TODO put in properties or at least util class
     private void initTasks() {
         tasks = new ArrayList<>();
         addSteerTasks();
@@ -76,8 +76,48 @@ class TaskGenerator implements Serializable {
         tasks.add(new PanelTask(PanelType.RANDOM, descriptionAnswer));
     }
 
-    Task getTask() {
-        int randomTaskNumber = random.nextInt(tasks.size());
-        return tasks.get(randomTaskNumber);
+    SingleTask getTask() {
+        int randomPanelNumber = random.nextInt(tasks.size());
+        PanelType panelType = tasks.get(randomPanelNumber).getPanelType();
+        Map<String, List<String>> descriptionAnswer = tasks.get(randomPanelNumber).getDescriptionAnswer();
+        String randomDescriptionKey = getRandomDescription(descriptionAnswer);
+        String randomAnswer = getRandomAnswer(descriptionAnswer, randomDescriptionKey);
+
+        return new SingleTask(panelType, randomDescriptionKey, randomAnswer);
+    }
+
+    private String getRandomDescription(Map<String, List<String>> descriptionAnswer) {
+        List<String> descriptionKeys = new ArrayList<>(descriptionAnswer.keySet());
+        return descriptionKeys.get(random.nextInt(descriptionKeys.size()));
+    }
+
+    private String getRandomAnswer(Map<String, List<String>> descriptionAnswer, String randomDescriptionKey) {
+        List<String> answers = descriptionAnswer.get(randomDescriptionKey);
+        return answers.get(random.nextInt(answers.size()));
+    }
+
+    static class SingleTask {
+
+        private PanelType panelType;
+        private String description;
+        private String answer;
+
+        public SingleTask(PanelType panelType, String description, String answer) {
+            this.panelType = panelType;
+            this.description = description;
+            this.answer = answer;
+        }
+
+        public PanelType getPanelType() {
+            return panelType;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getAnswer() {
+            return answer;
+        }
     }
 }
