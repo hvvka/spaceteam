@@ -10,7 +10,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
@@ -29,9 +28,9 @@ public class PlayerClientImpl implements PlayerClient {
     public void registerPlayer(String name, PanelType panel) {
         try {
             User player = new Player(name, panel);
-            User remotePlayer = (User) UnicastRemoteObject.exportObject(player, 0);
-            Server server = (Server) LocateRegistry.getRegistry().lookup(severName);
-            server.register(remotePlayer);
+//            User remotePlayer = (User) UnicastRemoteObject.exportObject(player, 0);
+            Server server = (Server) getRegistry().lookup(severName);
+            server.register(player);
             LOG.info("Player {} registered! (player side)", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
@@ -53,7 +52,7 @@ public class PlayerClientImpl implements PlayerClient {
         Server remoteServer = null;
         Registry registry = getRegistry();
         try {
-            remoteServer = (Server) registry.lookup(severName); //FIXME nullpointer
+            remoteServer = (Server) registry.lookup(severName);
             LOG.info("Server {} lookup succeed. (captain side)", severName);
         } catch (NotBoundException e) {
             LOG.error("", e);
@@ -62,7 +61,7 @@ public class PlayerClientImpl implements PlayerClient {
     }
 
     private Registry getRegistry() throws RemoteException {
-        return LocateRegistry.getRegistry();
+        return LocateRegistry.getRegistry(2099);
     }
 
     private TaskGenerator.SingleTask getExceptionTask() {

@@ -1,6 +1,5 @@
 package com.hania;
 
-import com.hania.model.Captain;
 import com.hania.model.PanelType;
 import com.hania.model.User;
 import org.slf4j.Logger;
@@ -46,17 +45,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Override
     public void kickOut(User user) {
-        team.remove(user);
+        team.removePlayer(user);
     }
 
     @Override
-    public void register(User user) {
-        if (user instanceof Captain && !team.contains(user)) {
+    public void register(User user) throws RemoteException {
+        if (user.getPanelType() == PanelType.CAPTAIN) {
             registerCaptain(user);
-            LOG.info("New Captain registered. (server side)");
+            LOG.info("New Captain (name={}) registered. (server side)", user.getName());
         } else if (!team.contains(user)) {
             registerPlayer(user);
-            LOG.info("New Player registered. (server side)");
+            LOG.info("New Player (name={}, panel={}) registered. (server side)", user.getName(), user.getPanelType());
         }
     }
 
@@ -89,5 +88,30 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     @Override
     public int getScore() {
         return score;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ServerImpl server = (ServerImpl) o;
+
+        if (score != server.score) return false;
+        if (taskGenerator != null ? !taskGenerator.equals(server.taskGenerator) : server.taskGenerator != null)
+            return false;
+        if (team != null ? !team.equals(server.team) : server.team != null) return false;
+        return currentTask != null ? currentTask.equals(server.currentTask) : server.currentTask == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (taskGenerator != null ? taskGenerator.hashCode() : 0);
+        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + (currentTask != null ? currentTask.hashCode() : 0);
+        result = 31 * result + score;
+        return result;
     }
 }

@@ -96,7 +96,7 @@ class TaskGenerator implements Serializable {
         return answers.get(random.nextInt(answers.size()));
     }
 
-    static class SingleTask {
+    public static class SingleTask implements Serializable {
 
         private PanelType panelType;
         private String description;

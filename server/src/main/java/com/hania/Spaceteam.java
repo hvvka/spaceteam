@@ -26,7 +26,7 @@ public class Spaceteam {
             server.register(new Player("Bar", PanelType.STEER));
             LOG.info("New player in.");
 
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(2099);
             registry.rebind("SpaceteamServer", server);
             LOG.info("Server's ready.");
         } catch (RemoteException e) {

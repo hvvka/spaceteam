@@ -10,7 +10,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public Set getPlayers() throws RemoteException {
+    public Set<User> getPlayers() throws RemoteException {
         Server remoteServer = getServer();
         return fetchPlayers(remoteServer);
     }
@@ -49,10 +48,10 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     private Registry getRegistry() throws RemoteException {
-        return LocateRegistry.getRegistry();
+        return LocateRegistry.getRegistry(2099);
     }
 
-    private Set fetchPlayers(Server server) throws RemoteException {
+    private Set<User> fetchPlayers(Server server) throws RemoteException {
         return server != null ? server.showPlayers() : Collections.emptySet();
     }
 
@@ -76,10 +75,10 @@ public class CaptainClientImpl implements CaptainClient {
     @Override
     public void registerCaptain(String name) {
         try {
-            User captain = new Captain(name);
-            User remoteCaptain = (User) UnicastRemoteObject.exportObject(captain, 0);
-            Server server = (Server) LocateRegistry.getRegistry().lookup(severName);
-            server.register(remoteCaptain);
+            Captain captain = new Captain(name);
+//            User remoteCaptain = (User) UnicastRemoteObject.exportObject(captain, 0);
+            Server server = (Server) getRegistry().lookup(severName);
+            server.register(captain);
             LOG.info("Captain {} registered! (captain side)", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);

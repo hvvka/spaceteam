@@ -1,6 +1,5 @@
 package com.hania;
 
-import com.hania.model.Captain;
 import com.hania.model.User;
 
 import java.io.Serializable;
@@ -16,7 +15,7 @@ public class Team extends UnicastRemoteObject implements Serializable {
 
     private Set<User> crew;
 
-    private Captain captain;
+    private User captain;
 
     Team() throws RemoteException {
         crew = new HashSet<>();
@@ -27,19 +26,19 @@ public class Team extends UnicastRemoteObject implements Serializable {
     }
 
     public void setCaptain(User user) {
-        this.captain = (Captain) user;
+        this.captain = user;
     }
 
     public void addPlayer(User user) {
         crew.add(user);
     }
 
-    public void remove(User user) {
+    public void removePlayer(User user) {
         crew.remove(user);
     }
 
     public boolean contains(User user) {
-        return crew.contains(user) || user.equals(captain);
+        return user.equals(captain) || crew.contains(user);
     }
 
     @Override
