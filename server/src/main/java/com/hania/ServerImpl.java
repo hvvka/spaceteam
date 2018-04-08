@@ -1,6 +1,7 @@
 package com.hania;
 
 import com.hania.model.Captain;
+import com.hania.model.PanelType;
 import com.hania.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +19,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private TaskGenerator taskGenerator;
     private Team team;
+    private TaskGenerator.SingleTask currentTask;
+    private int score;
 
     ServerImpl() throws RemoteException {
         super();
         initTeam();
         taskGenerator = new TaskGenerator();
+        currentTask = new TaskGenerator.SingleTask(PanelType.CAPTAIN, "Yet no task", "");
+        this.score = 0;
     }
 
     private void initTeam() {
@@ -64,26 +69,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public TaskGenerator.SingleTask sendTask() {
+    public TaskGenerator.SingleTask createNewTask() {
         LOG.info("SendTask function invocation. (server side)");
-        return taskGenerator.getTask();
+        currentTask = taskGenerator.getTask();
+        return currentTask;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        ServerImpl server = (ServerImpl) o;
-
-        return team != null ? team.equals(server.team) : server.team == null;
+    public TaskGenerator.SingleTask sendCurrentTask() {
+        return currentTask;
     }
 
     @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (team != null ? team.hashCode() : 0);
-        return result;
+    public void updateScore(boolean isTaskCorrect) {
+        if (isTaskCorrect) score++;
+        else score--;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
     }
 }

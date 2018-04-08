@@ -28,17 +28,17 @@ public interface CaptainClient extends Remote {
     void endGame() throws RemoteException;
 
     /**
-     * Gathers information about application's performance.
+     * Gathers information about current score
      * @return a number of points for the crew
      * @throws RemoteException if registry could not be contacted
      */
-    int countPoints() throws RemoteException;
+    int getScore() throws RemoteException;
 
     /**
      * @return executable task for the crew
      * @throws RemoteException if registry could not be contacted
      */
-    TaskGenerator.SingleTask createTask() throws RemoteException;
+    String createTask() throws RemoteException;
 
     /**
      * Registers captain on the server.

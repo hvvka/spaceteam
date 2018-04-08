@@ -34,5 +34,15 @@ public interface Server extends Remote {
      * @return task for the captain
      * @throws RemoteException if registry could not be contacted
      */
-    TaskGenerator.SingleTask sendTask() throws RemoteException;
+    TaskGenerator.SingleTask createNewTask() throws RemoteException;
+
+    /**
+     * @return task for the crew
+     * @throws RemoteException if registry could not be contacted
+     */
+    TaskGenerator.SingleTask sendCurrentTask() throws RemoteException;
+
+    void updateScore(boolean isTaskCorrect);
+
+    int getScore();
 }

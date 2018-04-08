@@ -1,6 +1,7 @@
 package com.hania;
 
-import java.awt.*;
+import com.hania.model.PanelType;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -30,9 +31,9 @@ public interface PlayerClient extends Remote {
      * @param panel player's panel
      * @throws RemoteException if registry could not be contacted
      */
-    void registerPlayer(String name, Panel panel) throws RemoteException;
+    void registerPlayer(String name, PanelType panel) throws RemoteException;
 
-    void receiveTask(String task) throws RemoteException;
+    boolean verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException;
 
-    boolean verifyTask() throws RemoteException;
+    //todo how kickOut player?
 }

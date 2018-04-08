@@ -23,45 +23,37 @@ public class CaptainClientImpl implements CaptainClient {
 
     private String severName;
 
+    private int score;
+
     CaptainClientImpl(String serverName) {
         this.severName = serverName;
+        this.score = 0;
     }
 
     @Override
-    public Set getPlayers() {
+    public Set getPlayers() throws RemoteException {
         Server remoteServer = getServer();
         return fetchPlayers(remoteServer);
     }
 
-    private Server getServer() {
+    private Server getServer() throws RemoteException {
         Server remoteServer = null;
         Registry registry = getRegistry();
         try {
-            remoteServer = (Server) registry.lookup(severName); //FIXME nullpointer
+            remoteServer = (Server) registry.lookup(severName);
             LOG.info("Server {} lookup succeed. (captain side)", severName);
-        } catch (RemoteException | NotBoundException e) {
+        } catch (NotBoundException e) {
             LOG.error("", e);
         }
         return remoteServer;
     }
 
-    private Registry getRegistry() {
-        Registry registry = null;
-        try {
-            registry = LocateRegistry.getRegistry();
-        } catch (RemoteException e) {
-            LOG.error("", e);
-        }
-        return registry;
+    private Registry getRegistry() throws RemoteException {
+        return LocateRegistry.getRegistry();
     }
 
-    private Set fetchPlayers(Server server) {
-        try {
-            return server != null ? server.showPlayers() : Collections.emptySet();
-        } catch (RemoteException e) {
-            LOG.error("", e);
-        }
-        return Collections.emptySet();
+    private Set fetchPlayers(Server server) throws RemoteException {
+        return server != null ? server.showPlayers() : Collections.emptySet();
     }
 
     @Override
@@ -75,8 +67,10 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public int countPoints() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public int getScore() throws RemoteException {
+        Server remoteServer = getServer();
+        score = remoteServer == null ? score : remoteServer.getScore();
+        return score;
     }
 
     @Override
@@ -93,18 +87,19 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public TaskGenerator.SingleTask createTask() {
+    public String createTask() throws RemoteException {
         Server remoteServer = getServer();
-        return getTask(remoteServer);
+        return getTextTask(remoteServer);
     }
 
-    private TaskGenerator.SingleTask getTask(Server server) {
-        try {
-            return server != null ? server.sendTask() : getExceptionTask();
-        } catch (RemoteException e) {
-            LOG.error("", e);
-        }
-        return getExceptionTask();
+    private String getTextTask(Server remoteServer) throws RemoteException {
+        TaskGenerator.SingleTask task = getTask(remoteServer);
+        return task.getPanelType().toString().toLowerCase() + ", "
+                + task.getDescription() + " " + task.getAnswer() + "!";
+    }
+
+    private TaskGenerator.SingleTask getTask(Server server) throws RemoteException {
+        return server != null ? server.createNewTask() : getExceptionTask();
     }
 
     private TaskGenerator.SingleTask getExceptionTask() {
