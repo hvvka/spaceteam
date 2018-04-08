@@ -40,7 +40,7 @@ public class CaptainClientImpl implements CaptainClient {
         Registry registry = getRegistry();
         try {
             remoteServer = (Server) registry.lookup(severName);
-            LOG.info("Server {} lookup succeed. (captain side)", severName);
+            LOG.info("Server {} lookup succeed. (captain)", severName);
         } catch (NotBoundException e) {
             LOG.error("", e);
         }
@@ -53,11 +53,6 @@ public class CaptainClientImpl implements CaptainClient {
 
     private Set<User> fetchPlayers(Server server) throws RemoteException {
         return server != null ? server.showPlayers() : Collections.emptySet();
-    }
-
-    @Override
-    public void startGame() {
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
@@ -78,9 +73,20 @@ public class CaptainClientImpl implements CaptainClient {
             Captain captain = new Captain(name);
             Server server = (Server) getRegistry().lookup(severName);
             server.register(captain);
-            LOG.info("Captain {} registered! (captain side)", name);
+            LOG.info("Captain {} registered! (captain)", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
+        }
+    }
+
+    @Override
+    public void kickOutPlayer(String name) throws RemoteException {
+        Server remoteServer = getServer();
+        if (remoteServer != null) {
+            remoteServer.kickOut(name);
+            LOG.info("Player {} got kicked out.", name);
+        } else {
+            LOG.error("KickOutPlayer – server's null. (captain)");
         }
     }
 

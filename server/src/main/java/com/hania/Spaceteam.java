@@ -23,8 +23,12 @@ public class Spaceteam {
             Server server = new ServerImpl();
 
             //todo delete
-            server.register(new Player("Bar", PanelType.STEER));
-            LOG.info("New player in.");
+            server.register(new Player("Foo", PanelType.STEER));
+            server.register(new Player("Bar", PanelType.CLEANER));
+            server.register(new Player("Baz", PanelType.MATHEMATICAL));
+            LOG.info("New players in.");
+            server.updateScore(true);
+            server.updateScore(true);
 
             Registry registry = LocateRegistry.getRegistry(2099);
             registry.rebind("SpaceteamServer", server);

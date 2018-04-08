@@ -39,23 +39,23 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Override
     public Set<User> showPlayers() {
-        LOG.info("ShowPlayers function invocation. (server side)");
         return team.getCrew();
     }
 
     @Override
-    public void kickOut(User user) {
-        team.removePlayer(user);
+    public void kickOut(String name) {
+        team.removePlayer(name);
+        LOG.info("Kicked out player.name={}", name);
     }
 
     @Override
     public void register(User user) throws RemoteException {
         if (user.getPanelType() == PanelType.CAPTAIN) {
             registerCaptain(user);
-            LOG.info("New Captain (name={}) registered. (server side)", user.getName());
+            LOG.info("New Captain (name={}) registered. (server)", user.getName());
         } else if (!team.contains(user)) {
             registerPlayer(user);
-            LOG.info("New Player (name={}, panel={}) registered. (server side)", user.getName(), user.getPanelType());
+            LOG.info("New Player (name={}, panel={}) registered. (server)", user.getName(), user.getPanelType());
         }
     }
 
@@ -69,8 +69,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Override
     public TaskGenerator.SingleTask createNewTask() {
-        LOG.info("SendTask function invocation. (server side)");
         currentTask = taskGenerator.getTask();
+        LOG.info("SendTask – panel={} desc={} ans={}. (server)",
+                currentTask.getPanelType(), currentTask.getDescription(), currentTask.getAnswer());
         return currentTask;
     }
 

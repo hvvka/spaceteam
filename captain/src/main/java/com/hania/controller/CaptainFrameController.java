@@ -20,7 +20,6 @@ class CaptainFrameController {
     private JTextField taskTextField;
     private JTextField scoreTextField;
     private JList playerList;
-    private JTextField playerName;
     private JButton kickOutButton;
     private JButton nextTaskButton;
     private JButton refreshButton;
@@ -38,7 +37,6 @@ class CaptainFrameController {
         taskTextField = captainFrame.getTaskTextField();
         scoreTextField = captainFrame.getScoreTextField();
         playerList = captainFrame.getPlayerList();
-        playerName = captainFrame.getPlayerName();
         kickOutButton = captainFrame.getKickOutButton();
         nextTaskButton = captainFrame.getNextTaskButton();
         refreshButton = captainFrame.getRefreshButton();
@@ -59,14 +57,28 @@ class CaptainFrameController {
         });
 
         kickOutButton.addActionListener(e -> {
-            String name = playerName.getText();
-            //todo kickout action
+            String player = getSelectedPlayer();
+            kickOutPlayer(player);
+            updatePlayerList();
         });
 
         refreshButton.addActionListener(e -> {
             int currentScore = fetchScore();
             scoreTextField.setText(Integer.toString(currentScore));
         });
+    }
+
+    private String getSelectedPlayer() {
+        String playerRow = playerList.getSelectedValue().toString();
+        return playerRow.substring(playerRow.lastIndexOf('\t') + 1);
+    }
+
+    private void kickOutPlayer(String name) {
+        try {
+            captainClient.kickOutPlayer(name);
+        } catch (RemoteException e) {
+            showErrorMessage(e);
+        }
     }
 
     private void updatePlayerList() {
@@ -81,8 +93,9 @@ class CaptainFrameController {
 
     private void updateModel(Set<User> players) throws RemoteException {
         model.removeAllElements();
-        for (User player : players)
-            model.addElement(player.getPanelType().toString() + "           " + player.getName());
+        for (User player : players) {
+            model.addElement(player.getPanelType().toString().toLowerCase() + "\t\t\t" + player.getName());
+        }
     }
 
     private int fetchScore() {

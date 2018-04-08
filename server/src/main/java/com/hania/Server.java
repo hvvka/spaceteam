@@ -18,10 +18,10 @@ public interface Server extends Remote {
     Set<User> showPlayers() throws RemoteException;
 
     /**
-     * @param user to be deleted from the list
+     * @param name to be deleted from the list
      * @throws RemoteException if registry could not be contacted
      */
-    void kickOut(User user) throws RemoteException;
+    void kickOut(String name) throws RemoteException;
 
     /**
      * Accepts players' or captain's connections to server.

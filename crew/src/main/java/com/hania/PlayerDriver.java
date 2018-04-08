@@ -17,7 +17,7 @@ public class PlayerDriver {
 
     public static void main(String[] args) throws RemoteException {
         PlayerClient captainClient = new PlayerClientImpl(SEVER_NAME);
-        captainClient.registerPlayer("Buzz", PanelType.STEER);
+        captainClient.registerPlayer("Quz", PanelType.STEER);
         LOG.info("Task assertion: {}", captainClient.verifyTask(
                 new TaskGenerator.SingleTask(PanelType.STEER, "", "")));
     }

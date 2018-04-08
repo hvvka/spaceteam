@@ -1,17 +1,24 @@
 package com.hania;
 
 import com.hania.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 public class Team extends UnicastRemoteObject implements Serializable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Team.class);
+
 
     private Set<User> crew;
 
@@ -33,8 +40,22 @@ public class Team extends UnicastRemoteObject implements Serializable {
         crew.add(user);
     }
 
-    public void removePlayer(User user) {
-        crew.remove(user);
+    public void removePlayer(String name) {
+        Optional<User> user = crew.stream().filter(p -> checkPlayerPresence(name, p)).findFirst();
+        if (user.isPresent()) {
+            crew.remove(user.get());
+        } else {
+            throw new NoSuchElementException("Selected player doesn't exist.");
+        }
+    }
+
+    private boolean checkPlayerPresence(String name, User p) {
+        try {
+            return p.getName().equals(name);
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return false;
     }
 
     public boolean contains(User user) {

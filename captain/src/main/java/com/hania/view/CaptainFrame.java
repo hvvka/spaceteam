@@ -14,13 +14,12 @@ public class CaptainFrame extends JFrame {
     private JTextField taskTextField;
     private JTextField scoreTextField;
     private JList playerList;
-    private JTextField playerName;
     private JButton kickOutButton;
     private JButton nextTaskButton;
     private JButton refreshButton;
 
     public CaptainFrame() {
-        super("Hello, Captain!");
+        super("Manage your team");
         setSize(WIDTH, HEIGHT);
         setContentPane(captainPanel);
         setLocationRelativeTo(null);
@@ -40,10 +39,6 @@ public class CaptainFrame extends JFrame {
 
     public JList getPlayerList() {
         return playerList;
-    }
-
-    public JTextField getPlayerName() {
-        return playerName;
     }
 
     public JButton getKickOutButton() {

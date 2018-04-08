@@ -18,12 +18,6 @@ public interface CaptainClient extends Remote {
     Set<User> getPlayers() throws RemoteException;
 
     /**
-     * Enables to start a game or a round.
-     * @throws RemoteException if registry could not be contacted
-     */
-    void startGame() throws RemoteException;
-
-    /**
      * Enables to end a game or a round.
      * @throws RemoteException if registry could not be contacted
      */
@@ -48,4 +42,6 @@ public interface CaptainClient extends Remote {
      * @param name captain's name
      */
     void registerCaptain(String name) throws RemoteException;
+
+    void kickOutPlayer(String name) throws RemoteException;
 }
