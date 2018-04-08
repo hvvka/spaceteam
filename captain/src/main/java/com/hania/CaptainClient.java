@@ -37,7 +37,7 @@ public interface CaptainClient extends Remote {
     int getScore() throws RemoteException;
 
     /**
-     * @return executable task for the crew
+     * @return task for the captain view
      * @throws RemoteException if registry could not be contacted
      */
     String createTask() throws RemoteException;

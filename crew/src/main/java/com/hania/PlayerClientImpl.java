@@ -28,7 +28,6 @@ public class PlayerClientImpl implements PlayerClient {
     public void registerPlayer(String name, PanelType panel) {
         try {
             User player = new Player(name, panel);
-//            User remotePlayer = (User) UnicastRemoteObject.exportObject(player, 0);
             Server server = (Server) getRegistry().lookup(severName);
             server.register(player);
             LOG.info("Player {} registered! (player side)", name);

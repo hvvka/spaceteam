@@ -24,7 +24,7 @@ public class CaptainClientImpl implements CaptainClient {
 
     private int score;
 
-    CaptainClientImpl(String serverName) {
+    public CaptainClientImpl(String serverName) {
         this.severName = serverName;
         this.score = 0;
     }
@@ -76,7 +76,6 @@ public class CaptainClientImpl implements CaptainClient {
     public void registerCaptain(String name) {
         try {
             Captain captain = new Captain(name);
-//            User remoteCaptain = (User) UnicastRemoteObject.exportObject(captain, 0);
             Server server = (Server) getRegistry().lookup(severName);
             server.register(captain);
             LOG.info("Captain {} registered! (captain side)", name);
@@ -93,8 +92,12 @@ public class CaptainClientImpl implements CaptainClient {
 
     private String getTextTask(Server remoteServer) throws RemoteException {
         TaskGenerator.SingleTask task = getTask(remoteServer);
-        return task.getPanelType().toString().toLowerCase() + ", "
-                + task.getDescription() + " " + task.getAnswer() + "!";
+        return getPanelTypeString(task).substring(0, 1).toUpperCase() + getPanelTypeString(task).substring(1).toLowerCase() + ", "
+                + task.getDescription().toLowerCase() + " " + task.getAnswer().toLowerCase() + "!";
+    }
+
+    private String getPanelTypeString(TaskGenerator.SingleTask task) {
+        return task.getPanelType().toString();
     }
 
     private TaskGenerator.SingleTask getTask(Server server) throws RemoteException {
