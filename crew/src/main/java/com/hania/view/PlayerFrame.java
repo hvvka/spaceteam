@@ -1,19 +1,17 @@
 package com.hania.view;
 
 import com.hania.PlayerClient;
-import com.hania.model.PanelType;
 import com.hania.model.User;
 
 import javax.swing.*;
-import java.rmi.RemoteException;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 public class PlayerFrame extends JFrame {
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 800;
 
     private PlayerClient playerClient;
     private User player;
@@ -22,7 +20,10 @@ public class PlayerFrame extends JFrame {
         super("Listen to captain's commands");
         this.playerClient = playerClient;
         this.player = player;
+        initFrameProperties();
+    }
 
+    private void initFrameProperties() {
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -31,15 +32,9 @@ public class PlayerFrame extends JFrame {
     }
 
     private void initPlayerPanelBean() {
-        String name = "";
-        PanelType panelType = null;
-        try {
-            name = player.getName();
-            panelType = player.getPanelType();
-        } catch (RemoteException e) {
-            ErrorMessageUtil.show(e);
-        }
-
-//        setContentPane();
+        PlayerPanelBean playerPanelBean = new PlayerPanelBean();
+        playerPanelBean.setPlayer(player);
+        playerPanelBean.setPlayerClient(playerClient);
+        setContentPane(playerPanelBean);
     }
 }

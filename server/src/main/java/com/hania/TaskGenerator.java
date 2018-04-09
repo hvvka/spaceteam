@@ -10,70 +10,59 @@ import java.util.*;
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-class TaskGenerator implements Serializable {
+public class TaskGenerator implements Serializable {
 
     private List<Task> tasks;
 
     private Random random;
 
     TaskGenerator() {
-        random = new Random();
-        initTasks();
-    }
-
-    //TODO put in properties or at least util class
-    private void initTasks() {
         tasks = new ArrayList<>();
-        addSteerTasks();
-        addEngineTasks();
-        addMathematicalTasks();
-        addCleanerTasks();
-        addRandomTasks();
+        random = new Random();
     }
 
-    private void addSteerTasks() {
+    private static Task getSteerTasks() {
         Map<String, List<String>> descriptionAnswer = new HashMap<>();
         descriptionAnswer.put("Turn fleet", Arrays.asList("Right", "Left"));
         descriptionAnswer.put("Fly towards", Arrays.asList("Moon", "Earth", "Carrot"));
         descriptionAnswer.put("Gear", Arrays.asList("1", "2", "3", "4", "5"));
-
-        tasks.add(new PanelTask(PanelType.STEER, descriptionAnswer));
+        return new PanelTask(PanelType.STEER, descriptionAnswer);
     }
 
-    private void addEngineTasks() {
+    private static Task getEngineTasks() {
         Map<String, List<String>> descriptionAnswer = new HashMap<>();
         descriptionAnswer.put("Speed", Arrays.asList("5", "10", "15"));
         descriptionAnswer.put("Sell", Arrays.asList("Engines", "Fuel", "Colleague"));
         descriptionAnswer.put("Turbo", Arrays.asList("ON", "OFF"));
-
-        tasks.add(new PanelTask(PanelType.ENGINE, descriptionAnswer));
+        return new PanelTask(PanelType.ENGINE, descriptionAnswer);
     }
 
-    private void addMathematicalTasks() {
+    private static Task getMathematicalTasks() {
         Map<String, List<String>> descriptionAnswer = new HashMap<>();
         descriptionAnswer.put("Prove", Arrays.asList("P=NP", "Life's sense"));
         descriptionAnswer.put("Calculate", Arrays.asList("2+1", "3*7", "1*0", "4/2", "5-1"));
         descriptionAnswer.put("Determine position of", Arrays.asList("Stars", "Particles", "Captain"));
-
-        tasks.add(new PanelTask(PanelType.MATHEMATICAL, descriptionAnswer));
+        return new PanelTask(PanelType.MATHEMATICAL, descriptionAnswer);
     }
 
-    private void addCleanerTasks() {
+    private static Task getCleanerTasks() {
         Map<String, List<String>> descriptionAnswer = new HashMap<>();
         descriptionAnswer.put("Collect", Arrays.asList("Dirty mugs", "Sympathy"));
         descriptionAnswer.put("Enjoy", Arrays.asList("Tea", "Life", "Your task"));
         descriptionAnswer.put("Space thing", Arrays.asList("ON", "OFF"));
-
-        tasks.add(new PanelTask(PanelType.CLEANER, descriptionAnswer));
+        return new PanelTask(PanelType.CLEANER, descriptionAnswer);
     }
 
-    private void addRandomTasks() {
+    private static Task getRandomTasks() {
         Map<String, List<String>> descriptionAnswer = new HashMap<>();
         descriptionAnswer.put("Edit", Arrays.asList("Wikipedia Page", "Ship's logbook"));
         descriptionAnswer.put("Comfort", Arrays.asList("Your mom", "Passengers"));
         descriptionAnswer.put("Rate your team", Arrays.asList("1", "2", "3", "4", "5"));
+        return new PanelTask(PanelType.RANDOM, descriptionAnswer);
+    }
 
-        tasks.add(new PanelTask(PanelType.RANDOM, descriptionAnswer));
+    public static List<Task> getAllTask() {
+        return Arrays.asList(getCleanerTasks(), getEngineTasks(), getSteerTasks(), getMathematicalTasks(), getRandomTasks());
     }
 
     SingleTask getTask() {
@@ -94,6 +83,29 @@ class TaskGenerator implements Serializable {
     private String getRandomAnswer(Map<String, List<String>> descriptionAnswer, String randomDescriptionKey) {
         List<String> answers = descriptionAnswer.get(randomDescriptionKey);
         return answers.get(random.nextInt(answers.size()));
+    }
+
+    //TODO put in properties or at least util class
+    void initTasks(PanelType panelType) {
+        switch (panelType) {
+            case CAPTAIN:
+                break;
+            case STEER:
+                tasks.add(getSteerTasks());
+                break;
+            case ENGINE:
+                tasks.add(getEngineTasks());
+                break;
+            case MATHEMATICAL:
+                tasks.add(getMathematicalTasks());
+                break;
+            case CLEANER:
+                tasks.add(getCleanerTasks());
+                break;
+            case RANDOM:
+                tasks.add(getRandomTasks());
+                break;
+        }
     }
 
     public static class SingleTask implements Serializable {

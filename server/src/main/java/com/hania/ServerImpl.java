@@ -55,6 +55,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             LOG.info("New Captain (name={}) registered. (server)", user.getName());
         } else if (!team.contains(user)) {
             registerPlayer(user);
+            createPlayerTasks(user.getPanelType());
             LOG.info("New Player (name={}, panel={}) registered. (server)", user.getName(), user.getPanelType());
         }
     }
@@ -65,6 +66,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private void registerPlayer(User user) {
         team.addPlayer(user);
+    }
+
+    private void createPlayerTasks(PanelType panelType) {
+        taskGenerator.initTasks(panelType);
     }
 
     @Override
