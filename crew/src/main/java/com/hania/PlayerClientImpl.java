@@ -20,7 +20,7 @@ public class PlayerClientImpl implements PlayerClient {
 
     private String severName;
 
-    PlayerClientImpl(String serverName) {
+    public PlayerClientImpl(String serverName) {
         this.severName = serverName;
     }
 
@@ -30,7 +30,7 @@ public class PlayerClientImpl implements PlayerClient {
             User player = new Player(name, panel);
             Server server = (Server) getRegistry().lookup(severName);
             server.register(player);
-            LOG.info("Player {} registered! (player side)", name);
+            LOG.info("Player {} registered! (player)", name);
         } catch (RemoteException | NotBoundException e) {
             LOG.error("", e);
         }
@@ -52,7 +52,7 @@ public class PlayerClientImpl implements PlayerClient {
         Registry registry = getRegistry();
         try {
             remoteServer = (Server) registry.lookup(severName);
-            LOG.info("Server {} lookup succeed. (captain side)", severName);
+            LOG.info("Server {} lookup succeed. (player)", severName);
         } catch (NotBoundException e) {
             LOG.error("", e);
         }
