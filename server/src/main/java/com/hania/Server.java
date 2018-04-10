@@ -42,7 +42,7 @@ public interface Server extends Remote {
      */
     TaskGenerator.SingleTask sendCurrentTask() throws RemoteException;
 
-    void updateScore(boolean isTaskCorrect) throws RemoteException;
+    void updateScore(int isTaskCorrect) throws RemoteException;
 
     int getScore() throws RemoteException;
 }

@@ -5,6 +5,8 @@ import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,7 +21,6 @@ public class PlayerFrame extends JFrame {
     private static final int HEIGHT = 850;
 
     private PlayerClient playerClient;
-    //    private User player;
     private String name;
     private PanelType panelType;
     private PlayerPanelBean playerPanelBean;
@@ -36,19 +37,40 @@ public class PlayerFrame extends JFrame {
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(getWindowAdapter());
         initPlayerPanelBean();
         setVisible(true);
         verifyTaskPeriodically();
     }
 
+    private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showConfirmDialog(null, "Do you want to quit?");
+                if (option == 0) {
+                    kickOutPlayer();
+                    System.exit(0);
+                }
+            }
+        };
+    }
+
+    private void kickOutPlayer() {
+        try {
+            playerClient.kickOut(name);
+        } catch (RemoteException e) {
+            ErrorMessageUtil.show(e);
+        }
+    }
+
     private void verifyTaskPeriodically() {
         Runnable getSelectedAnswer = () -> {
             TaskGenerator.SingleTask task = playerPanelBean.getSelectedAnswer();
-//            System.out.println("A=" + task.getAnswer() + ", D=" + task.getDescription() + ", P=" + task.getPanelType());
             verifyTask(task);
         };
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(getSelectedAnswer, 20, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(getSelectedAnswer, 30, 15, TimeUnit.SECONDS);
     }
 
     private void verifyTask(TaskGenerator.SingleTask task) {

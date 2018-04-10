@@ -19,7 +19,6 @@ public class Team extends UnicastRemoteObject implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(Team.class);
 
-
     private Set<User> crew;
 
     private User captain;
@@ -28,7 +27,7 @@ public class Team extends UnicastRemoteObject implements Serializable {
         crew = new HashSet<>();
     }
 
-    public Set<User> getCrew() {
+    Set<User> getCrew() {
         return crew;
     }
 
@@ -36,17 +35,36 @@ public class Team extends UnicastRemoteObject implements Serializable {
         this.captain = user;
     }
 
-    public void addPlayer(User user) {
+    void addPlayer(User user) {
         crew.add(user);
     }
 
-    public void removePlayer(String name) {
+    void removeUser(String name) {
+        String captainName = getCaptainName();
+        if (captainName.equals(name)) {
+            captain = null;
+        } else {
+            removePlayer(name);
+        }
+    }
+
+    private void removePlayer(String name) {
         Optional<User> user = crew.stream().filter(p -> checkPlayerPresence(name, p)).findFirst();
         if (user.isPresent()) {
             crew.remove(user.get());
         } else {
             throw new NoSuchElementException("Selected player doesn't exist.");
         }
+    }
+
+    private String getCaptainName() {
+        String captainName = "";
+        try {
+            captainName = captain.getName();
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return captainName;
     }
 
     private boolean checkPlayerPresence(String name, User p) {
@@ -58,7 +76,7 @@ public class Team extends UnicastRemoteObject implements Serializable {
         return false;
     }
 
-    public boolean contains(User user) {
+    boolean contains(User user) {
         return user.equals(captain) || crew.contains(user);
     }
 

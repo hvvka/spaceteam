@@ -33,7 +33,7 @@ public class LoginFrameController {
         registerButton.addActionListener(e -> {
             String name = loginFrame.getNameField().getText();
             registerCaptain(name);
-            new CaptainFrameController(captainClient);
+            new CaptainFrameController(captainClient, name);
             loginFrame.dispose();
         });
     }
@@ -42,8 +42,8 @@ public class LoginFrameController {
         captainClient = new CaptainClientImpl(SEVER_NAME);
         try {
             captainClient.registerCaptain(name);
-        } catch (RemoteException e1) {
-            showErrorRegistryMessage(e1);
+        } catch (RemoteException e) {
+            showErrorRegistryMessage(e);
         }
     }
 

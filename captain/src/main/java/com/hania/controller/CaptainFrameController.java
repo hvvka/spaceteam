@@ -3,9 +3,12 @@ package com.hania.controller;
 import com.hania.CaptainClient;
 import com.hania.model.User;
 import com.hania.view.CaptainFrame;
+import com.hania.view.ErrorMessageUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.Set;
 
@@ -16,6 +19,7 @@ class CaptainFrameController {
 
     private CaptainClient captainClient;
     private CaptainFrame captainFrame;
+    private String name;
 
     private JTextField taskTextField;
     private JTextField scoreTextField;
@@ -25,8 +29,10 @@ class CaptainFrameController {
     private JButton refreshButton;
 
     private DefaultListModel<String> model;
+    private Set<User> players;
 
-    CaptainFrameController(CaptainClient captainClient) {
+    CaptainFrameController(CaptainClient captainClient, String name) {
+        this.name = name;
         this.captainClient = captainClient;
         initComponents();
         initListeners();
@@ -34,6 +40,7 @@ class CaptainFrameController {
 
     private void initComponents() {
         captainFrame = new CaptainFrame();
+        captainFrame.addWindowListener(getWindowAdapter());
         taskTextField = captainFrame.getTaskTextField();
         scoreTextField = captainFrame.getScoreTextField();
         playerList = captainFrame.getPlayerList();
@@ -41,6 +48,27 @@ class CaptainFrameController {
         nextTaskButton = captainFrame.getNextTaskButton();
         refreshButton = captainFrame.getRefreshButton();
         initPlayerList();
+    }
+
+    private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showConfirmDialog(null, "Do you want to quit?");
+                if (option == 0) {
+                    kickOutYourself();
+                    System.exit(0);
+                }
+            }
+        };
+    }
+
+    private void kickOutYourself() {
+        try {
+            captainClient.kickOut(name);
+        } catch (RemoteException e) {
+            ErrorMessageUtil.show(e);
+        }
     }
 
     private void initPlayerList() {
@@ -51,20 +79,24 @@ class CaptainFrameController {
 
     private void initListeners() {
         nextTaskButton.addActionListener(e -> {
-            String task = fetchTask();
-            taskTextField.setText(task);
+            //todo add schedule to switch task every N seconds
+            if (!players.isEmpty()) {
+                String task = fetchTask();
+                taskTextField.setText(task);
+            }
             updatePlayerList();
         });
 
         kickOutButton.addActionListener(e -> {
             String player = getSelectedPlayer();
-            kickOutPlayer(player);
+            kickOutYourself(player);
             updatePlayerList();
         });
 
         refreshButton.addActionListener(e -> {
             int currentScore = fetchScore();
             scoreTextField.setText(Integer.toString(currentScore));
+            updatePlayerList();
         });
     }
 
@@ -73,16 +105,15 @@ class CaptainFrameController {
         return playerRow.substring(playerRow.lastIndexOf('\t') + 1);
     }
 
-    private void kickOutPlayer(String name) {
+    private void kickOutYourself(String name) {
         try {
-            captainClient.kickOutPlayer(name);
+            captainClient.kickOut(name);
         } catch (RemoteException e) {
             showErrorMessage(e);
         }
     }
 
     private void updatePlayerList() {
-        Set<User> players;
         try {
             players = captainClient.getPlayers();
             updateModel(players);

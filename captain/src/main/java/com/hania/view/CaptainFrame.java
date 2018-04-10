@@ -7,8 +7,8 @@ import javax.swing.*;
  */
 public class CaptainFrame extends JFrame {
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 400;
 
     private JPanel captainPanel;
     private JTextField taskTextField;

@@ -43,8 +43,20 @@ public class PlayerClientImpl implements PlayerClient {
         if (serverTask.getPanelType() != selectedTask.getPanelType()) return;
         LOG.info("Selected task: panel={}, desc={}, ans={}", selectedTask.getPanelType(), selectedTask.getDescription(), selectedTask.getAnswer());
         LOG.info("Server task: panel={}, desc={}, ans={}", serverTask.getPanelType(), serverTask.getDescription(), serverTask.getAnswer());
-        boolean isTaskCorrect = selectedTask.equals(serverTask);
+        int isTaskCorrect = selectedTask.compareTo(serverTask);
+        LOG.info("Task correct: {}", isTaskCorrect);
         if (remoteServer != null) remoteServer.updateScore(isTaskCorrect);
+    }
+
+    @Override
+    public void kickOut(String name) throws RemoteException {
+        Server remoteServer = getServer();
+        if (remoteServer != null) {
+            remoteServer.kickOut(name);
+            LOG.info("Player {} has quit.", name);
+        } else {
+            LOG.error("KickOut – server's null. (player)");
+        }
     }
 
     private Server getServer() throws RemoteException {

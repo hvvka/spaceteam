@@ -9,16 +9,6 @@ public class PlayerDriver {
 
     public static void main(String[] args) {
         new LoginFrameController();
-//        new PlayerFrame(new PlayerClientImpl(""), new User() {
-//            @Override
-//            public String getName() throws RemoteException {
-//                return "Henry";
-//            }
-//
-//            @Override
-//            public PanelType getPanelType() throws RemoteException {
-//                return PanelType.STEER;
-//            }
-//        });
+//        new PlayerFrame(new PlayerClientImpl(""), "abc", PanelType.CLEANER);
     }
 }

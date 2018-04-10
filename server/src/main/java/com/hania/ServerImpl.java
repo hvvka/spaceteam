@@ -44,7 +44,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Override
     public void kickOut(String name) {
-        team.removePlayer(name);
+        team.removeUser(name);
         LOG.info("Kicked out player.name={}", name);
     }
 
@@ -86,8 +86,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public void updateScore(boolean isTaskCorrect) {
-        if (isTaskCorrect) score++;
+    public void updateScore(int isTaskCorrect) {
+        if (isTaskCorrect == 1) score++;
         else score--;
     }
 

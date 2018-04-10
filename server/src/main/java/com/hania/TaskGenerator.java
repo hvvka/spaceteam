@@ -108,7 +108,7 @@ public class TaskGenerator implements Serializable {
         }
     }
 
-    public static class SingleTask implements Serializable {
+    public static class SingleTask implements Serializable, Comparable<SingleTask> {
 
         private PanelType panelType;
         private String description;
@@ -142,6 +142,33 @@ public class TaskGenerator implements Serializable {
 
         public void setAnswer(String answer) {
             this.answer = answer;
+        }
+
+        @Override
+        public int compareTo(SingleTask singleTask) {
+            return singleTask.getPanelType() == this.panelType
+                    && singleTask.getDescription().equals(this.description)
+                    && singleTask.getAnswer().equals(this.answer) ? 1 : 0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            SingleTask that = (SingleTask) o;
+
+            if (panelType != that.panelType) return false;
+            if (description != null ? !description.equals(that.description) : that.description != null) return false;
+            return answer != null ? answer.equals(that.answer) : that.answer == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = panelType != null ? panelType.hashCode() : 0;
+            result = 31 * result + (description != null ? description.hashCode() : 0);
+            result = 31 * result + (answer != null ? answer.hashCode() : 0);
+            return result;
         }
     }
 }

@@ -18,4 +18,6 @@ public interface PlayerClient extends Remote {
     void registerPlayer(String name, PanelType panel) throws RemoteException;
 
     void verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException;
+
+    void kickOut(String name) throws RemoteException;
 }

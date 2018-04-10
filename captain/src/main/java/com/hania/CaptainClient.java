@@ -43,5 +43,5 @@ public interface CaptainClient extends Remote {
      */
     void registerCaptain(String name) throws RemoteException;
 
-    void kickOutPlayer(String name) throws RemoteException;
+    void kickOut(String name) throws RemoteException;
 }

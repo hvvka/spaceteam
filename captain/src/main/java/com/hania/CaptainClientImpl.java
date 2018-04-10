@@ -80,13 +80,13 @@ public class CaptainClientImpl implements CaptainClient {
     }
 
     @Override
-    public void kickOutPlayer(String name) throws RemoteException {
+    public void kickOut(String name) throws RemoteException {
         Server remoteServer = getServer();
         if (remoteServer != null) {
             remoteServer.kickOut(name);
             LOG.info("Player {} got kicked out.", name);
         } else {
-            LOG.error("KickOutPlayer – server's null. (captain)");
+            LOG.error("KickOut – server's null. (captain)");
         }
     }
 
