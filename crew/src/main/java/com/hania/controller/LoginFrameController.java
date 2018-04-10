@@ -37,10 +37,10 @@ public class LoginFrameController {
         loginFrame = new LoginFrame();
         nameTextField = loginFrame.getNameTextField();
         registerButton = loginFrame.getRegisterButton();
-        initPanelComBox();
+        initPanelComboBox();
     }
 
-    private void initPanelComBox() {
+    private void initPanelComboBox() {
         panelComboBox = loginFrame.getPanelComboBox();
         Arrays.stream(PanelType.values()).forEach(p -> {
             if (p != PanelType.CAPTAIN) panelComboBox.addItem(p);
@@ -49,10 +49,10 @@ public class LoginFrameController {
 
     private void initListeners() {
         registerButton.addActionListener(e -> {
-            String name = loginFrame.getNameTextField().getText();
+            String name = nameTextField.getText();
             PanelType panel = (PanelType) panelComboBox.getSelectedItem();
             registerPlayer(name, panel);
-            new PlayerFrame(playerClient, player);
+            new PlayerFrame(playerClient, name, panel);
             loginFrame.dispose();
         });
     }

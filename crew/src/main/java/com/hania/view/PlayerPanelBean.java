@@ -4,40 +4,40 @@ import com.hania.PlayerClient;
 import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 import com.hania.model.Task;
-import com.hania.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
 /**
- * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
+ * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</currentAnswer>
  */
 public class PlayerPanelBean extends JPanel {
 
     private static final Logger LOG = LoggerFactory.getLogger(PlayerPanelBean.class);
 
     private PlayerClient playerClient;
-    private User player;
+    private String playerName;
+
+    private PanelType playerPanelType;
 
     private Map<PanelType, JPanel> panelComponents;
+
     private TaskGenerator.SingleTask selectedAnswer;
 
     public PlayerPanelBean() {
         panelComponents = new EnumMap<>(PanelType.class);
+        selectedAnswer = new TaskGenerator.SingleTask(playerPanelType, "", "");
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
         initTasks();
         initPanels();
     }
-
     private void initPanels() {
         for (PanelType panelType : PanelType.values()) {
             if (panelType == PanelType.CAPTAIN) continue;
@@ -109,7 +109,6 @@ public class PlayerPanelBean extends JPanel {
         slider.setSnapToTicks(true);
         slider.setPaintLabels(true);
 
-        //FIXME nullpointer!!!
         slider.addChangeListener(e -> {
             Integer value = slider.getValue();
             setSelectedAnswer(value.toString(), description, panelType);
@@ -122,10 +121,7 @@ public class PlayerPanelBean extends JPanel {
         Container container = new Container();
         for (String answer : answers) {
             JRadioButton radioButton = new JRadioButton(answer);
-
-            //FIXME nullpointer!!!
-            radioButton.addActionListener(getAbstractButtonListener(answer, description, panelType, radioButton));
-
+            radioButton.addActionListener(e -> setSelectedAnswer(answer, description, panelType));
             container.add(radioButton);
         }
         container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
@@ -136,20 +132,11 @@ public class PlayerPanelBean extends JPanel {
         Container container = new Container();
         for (String answer : answers) {
             JButton button = new JButton(answer);
-            button.addActionListener(getAbstractButtonListener(answer, description, panelType, button));
+            button.addActionListener(e -> setSelectedAnswer(answer, description, panelType));
             container.add(button);
         }
         container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
         return container;
-    }
-
-    private ActionListener getAbstractButtonListener(String answer, String description,
-                                                     PanelType panelType, AbstractButton abstractButton) {
-        return actionEvent -> {
-            if (abstractButton.isSelected()) {
-                setSelectedAnswer(answer, description, panelType);
-            }
-        };
     }
 
     private JList<String> createList(List<String> answers, String description, PanelType panelType) {
@@ -161,42 +148,16 @@ public class PlayerPanelBean extends JPanel {
         list.addListSelectionListener(e -> {
             String answer = list.getSelectedValue();
             setSelectedAnswer(answer, description, panelType);
-            LOG.info("SELECTED: A={}, D={}, P={}", selectedAnswer.getAnswer(), selectedAnswer.getDescription(), selectedAnswer.getPanelType());
         });
 
         return list;
     }
 
-//    private class ComponentActionListener implements ActionListener {
-//        private String answer;
-//        private String description;
-//        private PanelType panelType;
-//
-//        ComponentActionListener(String answer, String description, PanelType panelType) {
-//            this.answer = answer;
-//            this.description = description;
-//            this.panelType = panelType;
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            setSelectedAnswer(answer, description, panelType);
-//        }
-//
-//        private void setSelectedAnswer(String answer, String description, PanelType panelType) {
-//            LOG.info("A={}, D={}, P={}", answer, description, panelType);
-//            selectedAnswer.setAnswer(answer);
-//            selectedAnswer.setDescription(description);
-//            selectedAnswer.setPanelType(panelType);
-//        }
-//    }
-
     private void setSelectedAnswer(String answer, String description, PanelType panelType) {
-        //FIXME nullpointer!!!
         LOG.info("A={}, D={}, P={}", answer, description, panelType);
-        selectedAnswer.setAnswer(answer);
-        selectedAnswer.setDescription(description);
         selectedAnswer.setPanelType(panelType);
+        selectedAnswer.setDescription(description);
+        selectedAnswer.setAnswer(answer);
     }
 
     public PlayerClient getPlayerClient() {
@@ -207,17 +168,10 @@ public class PlayerPanelBean extends JPanel {
         this.playerClient = playerClient;
     }
 
-    public User getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(User player) {
-        this.player = player;
-        try {
-            lockOtherPanels(player.getPanelType());
-        } catch (RemoteException e) {
-            ErrorMessageUtil.show(e);
-        }
+    public void setPlayer(String name, PanelType panelType) {
+        this.playerName = name;
+        this.playerPanelType = panelType;
+        lockOtherPanels(panelType);
     }
 
     private void lockOtherPanels(PanelType panelType) {
@@ -262,5 +216,21 @@ public class PlayerPanelBean extends JPanel {
 
     public void setSelectedAnswer(TaskGenerator.SingleTask selectedAnswer) {
         this.selectedAnswer = selectedAnswer;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public PanelType getPlayerPanelType() {
+        return playerPanelType;
+    }
+
+    public void setPlayerPanelType(PanelType playerPanelType) {
+        this.playerPanelType = playerPanelType;
     }
 }

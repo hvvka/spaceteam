@@ -17,5 +17,5 @@ public interface PlayerClient extends Remote {
      */
     void registerPlayer(String name, PanelType panel) throws RemoteException;
 
-    boolean verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException;
+    void verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException;
 }

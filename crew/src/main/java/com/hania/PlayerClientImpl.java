@@ -37,14 +37,14 @@ public class PlayerClientImpl implements PlayerClient {
     }
 
     @Override
-    public boolean verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException {
+    public void verifyTask(TaskGenerator.SingleTask selectedTask) throws RemoteException {
         Server remoteServer = getServer();
         TaskGenerator.SingleTask serverTask = remoteServer == null ? getExceptionTask() : remoteServer.sendCurrentTask();
+        if (serverTask.getPanelType() != selectedTask.getPanelType()) return;
         LOG.info("Selected task: panel={}, desc={}, ans={}", selectedTask.getPanelType(), selectedTask.getDescription(), selectedTask.getAnswer());
         LOG.info("Server task: panel={}, desc={}, ans={}", serverTask.getPanelType(), serverTask.getDescription(), serverTask.getAnswer());
         boolean isTaskCorrect = selectedTask.equals(serverTask);
         if (remoteServer != null) remoteServer.updateScore(isTaskCorrect);
-        return isTaskCorrect;
     }
 
     private Server getServer() throws RemoteException {
