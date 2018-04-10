@@ -131,5 +131,17 @@ public class TaskGenerator implements Serializable {
         public String getAnswer() {
             return answer;
         }
+
+        public void setPanelType(PanelType panelType) {
+            this.panelType = panelType;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
     }
 }
