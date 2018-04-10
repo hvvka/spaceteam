@@ -45,7 +45,34 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     @Override
     public void kickOut(String name) {
         team.removeUser(name);
+        PanelType panelType = getPanelType(name);
+        taskGenerator.removeTasks(panelType);
         LOG.info("Kicked out player.name={}", name);
+    }
+
+    private PanelType getPanelType(String name) {
+        return team.getCrew().stream()
+                .filter(u -> getUserName(u).equals(name))
+                .map(u -> getUserPanelType(u))
+                .findFirst().get();
+    }
+
+    private PanelType getUserPanelType(User user) {
+        try {
+            return user.getPanelType();
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return PanelType.CAPTAIN;
+    }
+
+    private String getUserName(User user) {
+        try {
+            return user.getName();
+        } catch (RemoteException e) {
+            LOG.error("", e);
+        }
+        return "";
     }
 
     @Override

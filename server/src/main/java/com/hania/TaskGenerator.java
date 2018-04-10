@@ -108,6 +108,12 @@ public class TaskGenerator implements Serializable {
         }
     }
 
+    void removeTasks(PanelType panelType) {
+        tasks.forEach(t -> {
+            if (t.getPanelType() == panelType) tasks.remove(t);
+        });
+    }
+
     public static class SingleTask implements Serializable, Comparable<SingleTask> {
 
         private PanelType panelType;

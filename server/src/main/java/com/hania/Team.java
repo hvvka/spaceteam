@@ -24,6 +24,7 @@ public class Team extends UnicastRemoteObject implements Serializable {
     private User captain;
 
     Team() throws RemoteException {
+        captain = null;
         crew = new HashSet<>();
     }
 
@@ -40,9 +41,11 @@ public class Team extends UnicastRemoteObject implements Serializable {
     }
 
     void removeUser(String name) {
-        String captainName = getCaptainName();
-        if (captainName.equals(name)) {
-            captain = null;
+        if (captain != null) {
+            String captainName = getCaptainName();
+            if (captainName.equals(name)) {
+                captain = null;
+            }
         } else {
             removePlayer(name);
         }

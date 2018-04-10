@@ -1,6 +1,7 @@
 package com.hania.view;
 
 import com.hania.PlayerClient;
+import com.hania.PlayerPanelBean;
 import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PlayerFrame extends JFrame {
 
-    private static final int WIDTH = 1000;
+    private static final int WIDTH = 850;
     private static final int HEIGHT = 850;
 
     private PlayerClient playerClient;
@@ -26,7 +27,7 @@ public class PlayerFrame extends JFrame {
     private PlayerPanelBean playerPanelBean;
 
     public PlayerFrame(PlayerClient playerClient, String name, PanelType panelType) {
-        super("Listen to captain's commands");
+        super(name + ", listen to captain's commands!");
         this.playerClient = playerClient;
         this.name = name;
         this.panelType = panelType;
@@ -70,7 +71,7 @@ public class PlayerFrame extends JFrame {
             verifyTask(task);
         };
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(getSelectedAnswer, 30, 15, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(getSelectedAnswer, 20, 6, TimeUnit.SECONDS);
     }
 
     private void verifyTask(TaskGenerator.SingleTask task) {

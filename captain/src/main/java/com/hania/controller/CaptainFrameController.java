@@ -11,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
@@ -80,11 +83,7 @@ class CaptainFrameController {
     private void initListeners() {
         nextTaskButton.addActionListener(e -> {
             //todo add schedule to switch task every N seconds
-            if (!players.isEmpty()) {
-                String task = fetchTask();
-                taskTextField.setText(task);
-            }
-            updatePlayerList();
+            nextTask();
         });
 
         kickOutButton.addActionListener(e -> {
@@ -98,6 +97,22 @@ class CaptainFrameController {
             scoreTextField.setText(Integer.toString(currentScore));
             updatePlayerList();
         });
+    }
+
+    private void nextTask() {
+        if (!players.isEmpty()) {
+            String task = fetchTask();
+            taskTextField.setText(task);
+        } else {
+            initScheduler();
+        }
+        updatePlayerList();
+    }
+
+    private void initScheduler() {
+        Runnable getSelectedAnswer = () -> nextTask();
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(getSelectedAnswer, 20, 6, TimeUnit.SECONDS);
     }
 
     private String getSelectedPlayer() {

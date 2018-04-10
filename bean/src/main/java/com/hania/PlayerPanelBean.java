@@ -1,7 +1,5 @@
-package com.hania.view;
+package com.hania;
 
-import com.hania.PlayerClient;
-import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 import com.hania.model.Task;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 import java.util.Queue;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</currentAnswer>
  */
-public class PlayerPanelBean extends JPanel {
+public class PlayerPanelBean extends JPanel implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PlayerPanelBean.class);
 
@@ -26,9 +25,7 @@ public class PlayerPanelBean extends JPanel {
     private String playerName;
 
     private PanelType playerPanelType;
-
     private Map<PanelType, JPanel> panelComponents;
-
     private TaskGenerator.SingleTask selectedAnswer;
 
     public PlayerPanelBean() {
