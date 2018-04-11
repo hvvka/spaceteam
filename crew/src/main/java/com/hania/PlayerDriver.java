@@ -9,6 +9,5 @@ public class PlayerDriver {
 
     public static void main(String[] args) {
         new LoginFrameController();
-//        new PlayerFrame(new PlayerClientImpl(""), "abc", PanelType.CLEANER);
     }
 }

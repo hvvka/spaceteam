@@ -1,7 +1,6 @@
 package com.hania.view;
 
 import com.hania.PlayerClient;
-import com.hania.PlayerPanelBean;
 import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 

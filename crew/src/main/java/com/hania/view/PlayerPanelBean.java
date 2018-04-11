@@ -1,5 +1,7 @@
-package com.hania;
+package com.hania.view;
 
+import com.hania.PlayerClient;
+import com.hania.TaskGenerator;
 import com.hania.model.PanelType;
 import com.hania.model.Task;
 import org.apache.commons.lang3.StringUtils;

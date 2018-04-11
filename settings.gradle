@@ -3,5 +3,4 @@ rootProject.name = 'lab4'
 include 'captain'
 include 'server'
 include 'crew'
-include 'bean'
 

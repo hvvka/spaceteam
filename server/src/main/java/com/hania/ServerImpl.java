@@ -113,8 +113,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Override
-    public void updateScore(int isTaskCorrect) {
-        if (isTaskCorrect == 1) score++;
+    public void updateScore(boolean isTaskCorrect) {
+        if (isTaskCorrect) score++;
         else score--;
     }
 

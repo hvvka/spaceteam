@@ -6,7 +6,6 @@ import com.hania.view.CaptainFrame;
 import com.hania.view.ErrorMessageUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
@@ -59,14 +58,14 @@ class CaptainFrameController {
             public void windowClosing(WindowEvent e) {
                 int option = JOptionPane.showConfirmDialog(null, "Do you want to quit?");
                 if (option == 0) {
-                    kickOutYourself();
+                    kickYourselfOut();
                     System.exit(0);
                 }
             }
         };
     }
 
-    private void kickOutYourself() {
+    private void kickYourselfOut() {
         try {
             captainClient.kickOut(name);
         } catch (RemoteException e) {
@@ -81,14 +80,11 @@ class CaptainFrameController {
     }
 
     private void initListeners() {
-        nextTaskButton.addActionListener(e -> {
-            //todo add schedule to switch task every N seconds
-            nextTask();
-        });
+        nextTaskButton.addActionListener(e -> nextTask());
 
         kickOutButton.addActionListener(e -> {
             String player = getSelectedPlayer();
-            kickOutYourself(player);
+            kickYourselfOut(player);
             updatePlayerList();
         });
 
@@ -110,7 +106,7 @@ class CaptainFrameController {
     }
 
     private void initScheduler() {
-        Runnable getSelectedAnswer = () -> nextTask();
+        Runnable getSelectedAnswer = this::nextTask;
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(getSelectedAnswer, 20, 6, TimeUnit.SECONDS);
     }
@@ -120,11 +116,11 @@ class CaptainFrameController {
         return playerRow.substring(playerRow.lastIndexOf('\t') + 1);
     }
 
-    private void kickOutYourself(String name) {
+    private void kickYourselfOut(String name) {
         try {
             captainClient.kickOut(name);
         } catch (RemoteException e) {
-            showErrorMessage(e);
+            ErrorMessageUtil.show(e);
         }
     }
 
@@ -133,7 +129,7 @@ class CaptainFrameController {
             players = captainClient.getPlayers();
             updateModel(players);
         } catch (RemoteException e) {
-            showErrorMessage(e);
+            ErrorMessageUtil.show(e);
         }
     }
 
@@ -149,7 +145,7 @@ class CaptainFrameController {
         try {
             currentScore = captainClient.getScore();
         } catch (RemoteException e) {
-            showErrorMessage(e);
+            ErrorMessageUtil.show(e);
         }
         return currentScore;
     }
@@ -159,14 +155,8 @@ class CaptainFrameController {
         try {
             task = captainClient.createTask();
         } catch (RemoteException e) {
-            showErrorMessage(e);
+            ErrorMessageUtil.show(e);
         }
         return task;
-    }
-
-    private void showErrorMessage(RemoteException e) {
-        String messageWrapped = "<html><body><p style='width: 400px;'>" + e.toString() + "</p></body></html>";
-        String title = "Remote error!";
-        JOptionPane.showMessageDialog(new Frame(), messageWrapped, title, JOptionPane.ERROR_MESSAGE);
     }
 }

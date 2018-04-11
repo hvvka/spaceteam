@@ -43,7 +43,7 @@ public class PlayerClientImpl implements PlayerClient {
         if (serverTask.getPanelType() != selectedTask.getPanelType()) return;
         LOG.info("Selected task: panel={}, desc={}, ans={}", selectedTask.getPanelType(), selectedTask.getDescription(), selectedTask.getAnswer());
         LOG.info("Server task: panel={}, desc={}, ans={}", serverTask.getPanelType(), serverTask.getDescription(), serverTask.getAnswer());
-        int isTaskCorrect = selectedTask.compareTo(serverTask);
+        boolean isTaskCorrect = selectedTask.equals(serverTask);
         LOG.info("Task correct: {}", isTaskCorrect);
         if (remoteServer != null) remoteServer.updateScore(isTaskCorrect);
     }
